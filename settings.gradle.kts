@@ -28,3 +28,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "OssLicensesParser"
 include(":demo")
+include(":parser")
