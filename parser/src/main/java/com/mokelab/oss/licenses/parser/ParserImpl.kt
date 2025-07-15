@@ -21,8 +21,8 @@ internal fun String.toLibraryOrNull(): Library? {
 
 class ParserImpl(
     context: Context,
-    @RawRes private val metadataRes: Int,
-    @RawRes private val bodyRes: Int,
+    @param:RawRes private val metadataRes: Int,
+    @param:RawRes private val bodyRes: Int,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : Parser {
     private val appContext = context.applicationContext
