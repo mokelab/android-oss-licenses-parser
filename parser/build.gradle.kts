@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    `maven-publish`
 }
 
 android {
@@ -51,4 +52,24 @@ dependencies {
 
     // mockk
     testImplementation(libs.mockk)
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.mokelab.oss.licenses"
+            artifactId = "parser"
+            version = "1.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "myrepo"
+            url = uri(layout.buildDirectory.dir("repo"))
+        }
+    }
 }
