@@ -22,6 +22,7 @@ internal fun String.toLibraryOrNull(): Library? {
 class ParserImpl(
     context: Context,
     @RawRes private val metadataRes: Int,
+    @RawRes private val bodyRes: Int,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : Parser {
     private val appContext = context.applicationContext
@@ -32,5 +33,15 @@ class ParserImpl(
             .lineSequence()
             .mapNotNull { it.toLibraryOrNull() }
             .toList()
+    }
+
+    override suspend fun loadBody(library: Library): String = withContext(dispatcher) {
+        appContext.resources.openRawResource(bodyRes).use { inputStream ->
+            inputStream.skip(library.offset.toLong())
+            val buffer = ByteArray(library.length)
+            val readBytes = inputStream.read(buffer, 0, library.length)
+            if (readBytes <= 0) return@withContext ""
+            String(buffer, 0, readBytes, Charsets.UTF_8)
+        }
     }
 }
