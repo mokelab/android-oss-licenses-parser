@@ -48,4 +48,7 @@ dependencies {
     // kotest
     testImplementation(libs.kotest.runner.junit5)
     testImplementation(libs.kotest.assertions.core)
+
+    // mockk
+    testImplementation(libs.mockk)
 }
